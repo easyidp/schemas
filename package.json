@@ -1,0 +1,23 @@
+{
+  "name": "@easyidp/schemas",
+  "version": "1.0.0",
+  "description": "EasyIDP platform configuration schemas",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/easyidp/schemas.git"
+  },
+  "keywords": [
+    "easyidp",
+    "schema",
+    "validation",
+    "platform-engineering",
+    "gitops"
+  ],
+  "author": "EasyIDP",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/easyidp/schemas/issues"
+  },
+  "homepage": "https://github.com/easyidp/schemas#readme"
+}

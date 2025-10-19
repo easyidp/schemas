@@ -1,0 +1,24 @@
+apiVersion: idp.buckingham.io/v1
+kind: Integration
+metadata:
+  id: github-prod
+  name: GitHub Production
+  description: Main GitHub organization for production services
+  schema_version: v1
+  labels:
+    environment: production
+    team: platform
+spec:
+  provider: github
+  category: source_control
+  enabled: true
+  capabilities:
+    - repository_discovery
+    - webhook_integration
+    - ci_cd
+  config:
+    is_organization: true
+    organization: easyidp
+  credentials:
+    # Encrypted with SOPS
+    token: ENC[AES256_GCM,data:...,iv:...,tag:...,type:str]

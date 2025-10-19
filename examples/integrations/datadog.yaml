@@ -1,0 +1,25 @@
+apiVersion: idp.buckingham.io/v1
+kind: Integration
+metadata:
+  id: datadog
+  name: Datadog Monitoring
+  description: Application performance monitoring and observability
+  schema_version: v1
+  labels:
+    environment: production
+    team: platform
+spec:
+  provider: datadog
+  category: monitoring
+  enabled: true
+  capabilities:
+    - metrics
+    - logs
+    - traces
+    - alerts
+  config:
+    site: US1
+  credentials:
+    # Encrypted with SOPS
+    api_key: ENC[AES256_GCM,data:...,iv:...,tag:...,type:str]
+    app_key: ENC[AES256_GCM,data:...,iv:...,tag:...,type:str]

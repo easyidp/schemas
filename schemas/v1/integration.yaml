@@ -1,0 +1,360 @@
+apiVersion: idp.buckingham.io/v1
+kind: Schema
+metadata:
+  name: Integration
+  version: v1
+  description: Schema for external service integrations
+spec:
+  # Base properties (always present for all integration types)
+  properties:
+    id:
+      type: string
+      required: true
+      pattern: "^[a-z0-9-]+$"
+      ui:
+        label: Integration ID
+        placeholder: github-prod
+        hint: Unique identifier (lowercase, alphanumeric, hyphens only)
+    
+    name:
+      type: string
+      required: true
+      ui:
+        label: Display Name
+        placeholder: GitHub Production
+    
+    description:
+      type: string
+      ui:
+        label: Description
+        widget: textarea
+        placeholder: Describe this integration...
+        rows: 2
+    
+    provider:
+      type: string
+      required: true
+      enum:
+        - github
+        - datadog
+        - aws
+        - dockerhub
+        - pagerduty
+        - slack
+        - custom
+      ui:
+        label: Integration Provider
+        widget: select
+        hint: Select the external service provider
+    
+    category:
+      type: string
+      enum:
+        - source_control
+        - monitoring
+        - cloud
+        - artifact_registry
+        - incident_management
+        - communication
+        - custom
+      ui:
+        label: Category
+        widget: select
+    
+    enabled:
+      type: boolean
+      default: true
+      ui:
+        label: Enabled
+        widget: checkbox
+    
+    capabilities:
+      type: array
+      items:
+        type: string
+      ui:
+        label: Capabilities
+        widget: tags
+        placeholder: Add capability...
+  
+  # Conditional fields based on provider
+  conditionals:
+    # ===== GitHub =====
+    - if:
+        properties:
+          provider:
+            const: github
+      then:
+        properties:
+          category:
+            const: source_control
+          
+          config:
+            type: object
+            properties:
+              is_organization:
+                type: boolean
+                default: true
+                ui:
+                  label: Account Type
+                  widget: select
+                  options:
+                    - label: Organization
+                      value: true
+                    - label: Personal Account
+                      value: false
+              
+              organization:
+                type: string
+                required: true
+                ui:
+                  label: "{{ config.is_organization ? 'Organization Name' : 'Username' }}"
+                  placeholder: "{{ config.is_organization ? 'your-org' : 'your-username' }}"
+                  hint: "GitHub {{ config.is_organization ? 'organization' : 'account' }} name"
+          
+          credentials:
+            type: object
+            properties:
+              token:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: Personal Access Token
+                  widget: password
+                  placeholder: ghp_...
+                  hint: Will be encrypted with SOPS
+    
+    # ===== Datadog =====
+    - if:
+        properties:
+          provider:
+            const: datadog
+      then:
+        properties:
+          category:
+            const: monitoring
+          
+          config:
+            type: object
+            properties:
+              site:
+                type: string
+                required: true
+                default: US1
+                enum: [US1, US3, US5, EU1, AP1, US1_FED]
+                ui:
+                  label: Datadog Site
+                  widget: select
+                  hint: Select your Datadog site region
+          
+          credentials:
+            type: object
+            properties:
+              api_key:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: API Key
+                  widget: password
+                  hint: Will be encrypted with SOPS
+              
+              app_key:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: Application Key
+                  widget: password
+                  hint: Will be encrypted with SOPS
+    
+    # ===== AWS =====
+    - if:
+        properties:
+          provider:
+            const: aws
+      then:
+        properties:
+          category:
+            const: cloud
+          
+          config:
+            type: object
+            properties:
+              region:
+                type: string
+                required: true
+                default: us-east-1
+                ui:
+                  label: AWS Region
+                  placeholder: us-east-1
+                  hint: Primary AWS region for this integration
+              
+              account_id:
+                type: string
+                required: true
+                pattern: "^[0-9]{12}$"
+                ui:
+                  label: AWS Account ID
+                  placeholder: "123456789012"
+                  hint: 12-digit AWS account number
+          
+          credentials:
+            type: object
+            properties:
+              access_key_id:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: Access Key ID
+                  widget: password
+                  hint: Will be encrypted with SOPS
+              
+              secret_access_key:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: Secret Access Key
+                  widget: password
+                  hint: Will be encrypted with SOPS
+    
+    # ===== Docker Hub =====
+    - if:
+        properties:
+          provider:
+            const: dockerhub
+      then:
+        properties:
+          category:
+            const: artifact_registry
+          
+          config:
+            type: object
+            properties:
+              namespace:
+                type: string
+                required: true
+                ui:
+                  label: Namespace
+                  placeholder: your-username
+                  hint: Docker Hub username or organization
+          
+          credentials:
+            type: object
+            properties:
+              username:
+                type: string
+                required: true
+                ui:
+                  label: Username
+                  placeholder: your-username
+              
+              password:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: Password / Access Token
+                  widget: password
+                  hint: Will be encrypted with SOPS
+    
+    # ===== PagerDuty =====
+    - if:
+        properties:
+          provider:
+            const: pagerduty
+      then:
+        properties:
+          category:
+            const: incident_management
+          
+          config:
+            type: object
+            properties:
+              subdomain:
+                type: string
+                required: true
+                ui:
+                  label: PagerDuty Subdomain
+                  placeholder: your-company
+                  hint: From your-company.pagerduty.com URL
+          
+          credentials:
+            type: object
+            properties:
+              api_token:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: API Token
+                  widget: password
+                  hint: Will be encrypted with SOPS
+    
+    # ===== Slack =====
+    - if:
+        properties:
+          provider:
+            const: slack
+      then:
+        properties:
+          category:
+            const: communication
+          
+          config:
+            type: object
+            properties:
+              workspace:
+                type: string
+                required: true
+                ui:
+                  label: Workspace Name
+                  placeholder: your-workspace
+                  hint: Slack workspace identifier
+          
+          credentials:
+            type: object
+            properties:
+              bot_token:
+                type: string
+                required: true
+                secret: true
+                format: password
+                ui:
+                  label: Bot User OAuth Token
+                  widget: password
+                  placeholder: xoxb-...
+                  hint: Will be encrypted with SOPS
+    
+    # ===== Custom =====
+    - if:
+        properties:
+          provider:
+            const: custom
+      then:
+        properties:
+          config:
+            type: object
+            additionalProperties: true
+            ui:
+              label: Configuration
+              widget: json
+              hint: Custom JSON configuration for your integration
+          
+          credentials:
+            type: object
+            additionalProperties: true
+            ui:
+              label: Credentials
+              widget: json
+              hint: Custom credentials (will be encrypted with SOPS)

@@ -1,0 +1,26 @@
+apiVersion: idp.buckingham.io/v1
+kind: Integration
+metadata:
+  id: aws-prod
+  name: AWS Production
+  description: Production AWS account for infrastructure and services
+  schema_version: v1
+  labels:
+    environment: production
+    team: platform
+spec:
+  provider: aws
+  category: cloud
+  enabled: true
+  capabilities:
+    - compute
+    - storage
+    - database
+    - networking
+  config:
+    region: us-east-1
+    account_id: "123456789012"
+  credentials:
+    # Encrypted with SOPS
+    access_key_id: ENC[AES256_GCM,data:...,iv:...,tag:...,type:str]
+    secret_access_key: ENC[AES256_GCM,data:...,iv:...,tag:...,type:str]
