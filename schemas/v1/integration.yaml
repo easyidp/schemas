@@ -49,17 +49,10 @@ spec:
     
     category:
       type: string
-      enum:
-        - source_control
-        - monitoring
-        - cloud
-        - artifact_registry
-        - incident_management
-        - communication
-        - custom
+      readOnly: true
       ui:
-        label: Category
-        widget: select
+        hidden: true
+      description: Auto-populated based on provider selection
     
     enabled:
       type: boolean
