@@ -72,6 +72,8 @@ spec:
         properties:
           category:
             const: source_control
+            ui:
+              hidden: true
           
           config:
             type: object
@@ -120,6 +122,8 @@ spec:
         properties:
           category:
             const: monitoring
+            ui:
+              hidden: true
           
           config:
             type: object
@@ -166,6 +170,8 @@ spec:
         properties:
           category:
             const: cloud
+            ui:
+              hidden: true
           
           config:
             type: object
@@ -220,6 +226,8 @@ spec:
         properties:
           category:
             const: artifact_registry
+            ui:
+              hidden: true
           
           config:
             type: object
@@ -261,6 +269,8 @@ spec:
         properties:
           category:
             const: incident_management
+            ui:
+              hidden: true
           
           config:
             type: object
@@ -295,6 +305,8 @@ spec:
         properties:
           category:
             const: communication
+            ui:
+              hidden: true
           
           config:
             type: object
