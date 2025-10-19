@@ -74,7 +74,6 @@ spec:
             const: source_control
             ui:
               hidden: true
-          
           config:
             type: object
             properties:
@@ -124,7 +123,6 @@ spec:
             const: monitoring
             ui:
               hidden: true
-          
           config:
             type: object
             properties:
@@ -172,7 +170,6 @@ spec:
             const: cloud
             ui:
               hidden: true
-          
           config:
             type: object
             properties:
@@ -228,7 +225,6 @@ spec:
             const: artifact_registry
             ui:
               hidden: true
-          
           config:
             type: object
             properties:
@@ -271,7 +267,6 @@ spec:
             const: incident_management
             ui:
               hidden: true
-          
           config:
             type: object
             properties:
@@ -307,7 +302,6 @@ spec:
             const: communication
             ui:
               hidden: true
-          
           config:
             type: object
             properties:
