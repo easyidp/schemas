@@ -53,13 +53,6 @@ spec:
       ui:
         hidden: true
       description: Auto-populated based on provider selection
-    
-    enabled:
-      type: boolean
-      default: true
-      ui:
-        label: Enabled
-        widget: checkbox
   
   # Conditional fields based on provider
   conditionals:
@@ -111,6 +104,12 @@ spec:
                   widget: password
                   placeholder: ghp_...
                   hint: Will be encrypted with SOPS
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
     
     # ===== Datadog =====
     - if:
@@ -158,6 +157,12 @@ spec:
                   label: Application Key
                   widget: password
                   hint: Will be encrypted with SOPS
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
     
     # ===== AWS =====
     - if:
@@ -213,6 +218,12 @@ spec:
                   label: Secret Access Key
                   widget: password
                   hint: Will be encrypted with SOPS
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
     
     # ===== Docker Hub =====
     - if:
@@ -255,6 +266,12 @@ spec:
                   label: Password / Access Token
                   widget: password
                   hint: Will be encrypted with SOPS
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
     
     # ===== PagerDuty =====
     - if:
@@ -290,6 +307,12 @@ spec:
                   label: API Token
                   widget: password
                   hint: Will be encrypted with SOPS
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
     
     # ===== Slack =====
     - if:
@@ -326,6 +349,12 @@ spec:
                   widget: password
                   placeholder: xoxb-...
                   hint: Will be encrypted with SOPS
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
     
     # ===== Custom =====
     - if:
@@ -349,3 +378,9 @@ spec:
               label: Credentials
               widget: json
               hint: Custom credentials (will be encrypted with SOPS)
+          enabled:
+            type: boolean
+            default: true
+            ui:
+              label: Enabled
+              widget: checkbox
