@@ -12,11 +12,6 @@ spec:
   provider: datadog
   category: monitoring
   enabled: true
-  capabilities:
-    - metrics
-    - logs
-    - traces
-    - alerts
   config:
     site: US1
   credentials:

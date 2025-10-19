@@ -60,15 +60,6 @@ spec:
       ui:
         label: Enabled
         widget: checkbox
-    
-    capabilities:
-      type: array
-      items:
-        type: string
-      ui:
-        label: Capabilities
-        widget: tags
-        placeholder: Add capability...
   
   # Conditional fields based on provider
   conditionals:
@@ -88,6 +79,7 @@ spec:
               is_organization:
                 type: boolean
                 default: true
+                required: true
                 ui:
                   label: Account Type
                   widget: select

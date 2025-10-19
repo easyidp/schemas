@@ -12,10 +12,6 @@ spec:
   provider: github
   category: source_control
   enabled: true
-  capabilities:
-    - repository_discovery
-    - webhook_integration
-    - ci_cd
   config:
     is_organization: true
     organization: easyidp
